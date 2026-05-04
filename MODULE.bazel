@@ -95,6 +95,7 @@ go_deps_dev.module_override(
 )
 
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+pull = use_repo_rule("@rules_img//img:pull.bzl", "pull")
 
 http_archive(
     name = "com_github_twbs_bootstrap",
@@ -102,6 +103,21 @@ http_archive(
     sha256 = "395342b2974e3350560e65752d36aab6573652b11cc6cb5ef79a2e5e83ad64b1",
     strip_prefix = "bootstrap-5.1.0-dist",
     urls = ["https://github.com/twbs/bootstrap/releases/download/v5.1.0/bootstrap-5.1.0-dist.zip"],
+)
+
+pull(
+    name = "distroless_static",
+    digest = "sha256:3f2b64ef97bd285e36132c684e6b2ae8f2723293d09aae046196cca64251acac",
+    registry = "gcr.io",
+    repository = "distroless/static",
+)
+
+pull(
+    name = "nanoserver",
+    digest = "sha256:4bfc3ec32a8b9bb5e7a182440c517b0706267d88fda77b54acddf819920400ad",
+    layer_handling = "eager",
+    registry = "mcr.microsoft.com",
+    repository = "windows/nanoserver",
 )
 
 llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm", dev_dependency = True)
